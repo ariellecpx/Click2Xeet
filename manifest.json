@@ -2,12 +2,10 @@
   "manifest_version": 3,
   "name": "Click2Xeet",
   "version": "1.0",
-  "description": "Auto-generate X/Twitter replies in your own style using Gemini.",
+  "description": "One-Click AI Replies for X. Use your true voice to engage 10x faster. Built by LaunchRocket.io.",
   "permissions": [
     "storage",
     "activeTab",
-    "scripting",
-    "contextMenus",
     "contextMenus"
   ],
   "host_permissions": [
