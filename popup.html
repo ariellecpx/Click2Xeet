@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Click2Xeet Settings</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="popup.css">
+</head>
+
+<body>
+  <div class="app-container">
+    <header>
+      <div class="logo-row">
+        <img src="icons/icon48.png" style="width: 32px; height: 32px;">
+        <h1>Click2Xeet</h1>
+      </div>
+      <p class="subtitle">Personalized AI Replies</p>
+    </header>
+
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="config">Configuration</button>
+      <button class="tab-btn" data-tab="voice">Voice Profile</button>
+      <button class="tab-btn" data-tab="test">Test Lab</button>
+    </div>
+
+    <div class="content-area">
+      <!-- New: Trial Status Banner -->
+      <div id="trialBanner" class="trial-banner hidden">
+        <span id="trialText">Trial: 0/25 replies used</span>
+        <div class="banner-actions">
+          <button id="upgradeInlineBtn" class="upgrade-mini-btn">Get Pro</button>
+          <button id="activateBtn" class="link-mini-btn">Activate</button>
+        </div>
+      </div>
+
+      <!-- Tab 1: Config -->
+      <div id="tab-config" class="tab-content active">
+        <div class="form-group">
+          <label for="apiKey">Gemini API Key</label>
+          <div class="input-wrapper">
+            <input type="password" id="apiKey" placeholder="sk-...">
+          </div>
+          <span class="help-text">Get one at <a href="https://aistudio.google.com/" target="_blank">AI Studio</a></span>
+        </div>
+
+        <div class="form-group">
+          <label for="replyMode">Reply Mode</label>
+          <select id="replyMode">
+            <option value="custom">Custom (Use Instructions)</option>
+            <option value="funny">Funny & Witty</option>
+            <option value="brief">Brief & Direct</option>
+            <option value="agree">Agree & Expand</option>
+            <option value="chaos">Chaotic Interaction</option>
+            <option value="intellectual">Intellectual/Detailed</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="geminiModel">Gemini AI Model</label>
+          <select id="geminiModel">
+            <option value="gemini-3-flash-preview">Gemini 3 Flash (Fast)</option>
+            <option value="gemini-3-pro-preview">Gemini 3 Pro (Detailed)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <div class="label-row">
+            <label>Max Length</label>
+            <span id="charLimitVal" class="limit-val">280</span>
+          </div>
+          <input type="range" id="charLimit" min="20" max="280" step="10" value="280">
+        </div>
+
+        <div class="toggles">
+          <div class="toggle-item">
+            <span>Include Emojis</span>
+            <input type="checkbox" id="useEmojis" checked>
+          </div>
+          <div class="toggle-item">
+            <span>Auto-Capitalize</span>
+            <input type="checkbox" id="autoCap" checked>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 2: Voice -->
+      <div id="tab-voice" class="tab-content">
+        <div class="form-group">
+          <label for="instructions">Custom Instructions</label>
+          <textarea id="instructions" placeholder="e.g. lowercase only, uses 'gm' often..."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="trainingData">Paste Your Tweets (or the voice you want to replicate)</label>
+          <textarea id="trainingData" class="large-area"
+            placeholder="Paste 10-20 of your best tweets here..."></textarea>
+          <span class="help-text">This helps Gemini learn your natural rhythm.</span>
+        </div>
+      </div>
+
+      <!-- Tab 3: Test Lab -->
+      <div id="tab-test" class="tab-content">
+        <div class="form-group">
+          <label>Simulate a Tweet</label>
+          <textarea id="testInput" placeholder="What should the AI reply to?"></textarea>
+        </div>
+        <button id="testBtn" class="secondary-btn">Generate Preview</button>
+
+        <div id="testResult" class="preview-box hidden">
+          <label>AI Reply Preview:</label>
+          <div id="testOutputText" class="output-text"></div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <button id="saveBtn" class="primary-btn">Save Preferences</button>
+      <div id="status"></div>
+    </footer>
+  </div>
+  <script src="popup.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,8 @@
+{
+    "name": "click2xeet-backend",
+    "version": "1.0.0",
+    "description": "Serverless functions for Click2Xeet",
+    "dependencies": {
+        "stripe": "^14.14.0"
+    }
+}
