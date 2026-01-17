@@ -145,7 +145,7 @@ function scrapeTweetContext(clickedElement) {
     return firstTweet ? firstTweet.innerText : null;
 }
 
-function pasteTextToEditor(clickedElement, text) {
+async function pasteTextToEditor(clickedElement, text) {
     console.log("Click2Xeet: Copying reply to clipboard...");
 
     // Find the editor near the toolbar
@@ -165,18 +165,27 @@ function pasteTextToEditor(clickedElement, text) {
         editor = Array.from(editors).find(e => e.offsetParent !== null);
     }
 
-    // Copy to clipboard (guaranteed to work)
-    navigator.clipboard.writeText(text).then(() => {
-        console.log("Click2Xeet: Reply copied to clipboard!");
+    if (editor) {
+        // Essential for React editors: trigger focus and click events to "wake up" the component
+        editor.focus();
+        editor.dispatchEvent(new Event('focus', { bubbles: true }));
+        editor.click();
 
-        // Focus the editor so user can immediately paste
-        if (editor) {
-            editor.focus();
+        // precise delay to allow React state to settle
+        await new Promise(r => setTimeout(r, 50));
+
+        // The execCommand 'insertText' is the best way to mimic typing in these React editors
+        const success = document.execCommand('insertText', false, text);
+
+        if (!success) {
+            // Fallback: clipboard copy if insertion fails
+            navigator.clipboard.writeText(text);
+            showToast("Copied to clipboard! (Click box & Paste)");
         }
-
-        // Show a quick toast-style notification
-        showToast("Reply copied! Press Cmd+V to paste ✓");
-    });
+    } else {
+        navigator.clipboard.writeText(text);
+        showToast("Copied to clipboard! (Click box & Paste)");
+    }
 }
 
 // Simple toast notification

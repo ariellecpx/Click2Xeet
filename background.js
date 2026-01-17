@@ -58,7 +58,7 @@ async function generateReply(tweetText, sendResponse) {
         const customInstructions = data.instructions || "";
         const trainingData = data.trainingData || "";
         const mode = data.replyMode || "custom";
-        const charLimit = data.charLimit || 280;
+        const charLimit = parseInt(data.charLimit) || 280;
         const useEmojis = data.useEmojis !== false;
         const autoCap = data.autoCap !== false;
 
@@ -78,7 +78,7 @@ USER'S PAST TWEETS (Learn the tone/style/rhythm from these):
 ${trainingData}
 
 CONSTRAINTS:
-- MAXIMUM LENGTH: ${charLimit} characters. This is a STRICT limit.
+- Target length: approximately ${charLimit} characters (absolute max ${charLimit}).
 - EMOJIS: ${useEmojis ? "You may use emojis naturally." : "DO NOT USE ANY EMOJIS."}
 - CAPITALIZATION: ${autoCap ? "Normal sentence casing." : "All lowercase, no exceptions."}
 
@@ -91,12 +91,10 @@ Write a natural, high-quality reply to the following tweet.
 - Do not use hashtags unless the user history uses them.
 - Do not use corporate speak.
 - Maintain the user's typical punctuation style.
+- Ensure the sentence is complete and not cut off.
 
 Tweet to reply to: "${tweetText}"
 Reply:`;
-
-        // Calculate dynamic token limit based on character limit
-        const maxTokens = Math.ceil(charLimit / 3) + 50; // ~3 chars per token + buffer
 
         // Call Gemini API with speed optimizations
         const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`, {
@@ -111,7 +109,7 @@ Reply:`;
                     }]
                 }],
                 generationConfig: {
-                    maxOutputTokens: maxTokens,
+                    maxOutputTokens: 1024, // Prevents cut-offs
                     temperature: 0.8
                 }
             })

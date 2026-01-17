@@ -94,7 +94,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (result.geminiApiKey) document.getElementById('apiKey').value = result.geminiApiKey;
     if (result.instructions) document.getElementById('instructions').value = result.instructions;
-    if (result.trainingData) document.getElementById('trainingData').value = result.trainingData;
+    if (result.trainingData) {
+      document.getElementById('trainingData').value = result.trainingData;
+      updateTrainingCount();
+    }
     if (result.replyMode) document.getElementById('replyMode').value = result.replyMode;
     if (result.geminiModel) document.getElementById('geminiModel').value = result.geminiModel;
 
@@ -110,6 +113,16 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('charLimit').addEventListener('input', (e) => {
     document.getElementById('charLimitVal').textContent = e.target.value;
   });
+
+  // Handle Training Data Counter
+  const trainingArea = document.getElementById('trainingData');
+  const trainingCount = document.getElementById('trainingCount');
+
+  function updateTrainingCount() {
+    trainingCount.textContent = `${trainingArea.value.length.toLocaleString()} / 100,000`;
+  }
+
+  trainingArea.addEventListener('input', updateTrainingCount);
 
   // 3. Save settings
   document.getElementById('saveBtn').addEventListener('click', () => {

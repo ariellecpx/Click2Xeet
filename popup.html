@@ -94,9 +94,12 @@
 
         <div class="form-group">
           <label for="trainingData">Paste Your Tweets (or the voice you want to replicate)</label>
-          <textarea id="trainingData" class="large-area"
+          <textarea id="trainingData" class="large-area" maxlength="100000"
             placeholder="Paste 10-20 of your best tweets here..."></textarea>
-          <span class="help-text">This helps Gemini learn your natural rhythm.</span>
+          <div class="label-row" style="margin-top: 8px; justify-content: space-between;">
+            <span class="help-text">This helps Gemini learn your natural rhythm.</span>
+            <span id="trainingCount" class="help-text" style="color: var(--secondary);">0 / 100,000</span>
+          </div>
         </div>
       </div>
 
